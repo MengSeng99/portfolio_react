@@ -8,6 +8,7 @@ import Experience from './components/Experience/Experience';
 import Projects from './components/Projects/Projects';
 import LinkedInPosts from './components/LinkedInPosts/LinkedInPosts';
 import Contact from './components/Contact/Contact';
+import CareerInterests from './components/CareerInterests/CareerInterests';
 import { ThemeProvider } from './context/ThemeContext';
 
 const GlobalStyle = createGlobalStyle`
@@ -57,6 +58,7 @@ const App = () => {
       <Experience />
       <Projects />
       <LinkedInPosts />
+      <CareerInterests />
       <Contact />
     </ThemeProvider>
   );

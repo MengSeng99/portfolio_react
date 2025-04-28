@@ -43,6 +43,7 @@ const Navigation = () => {
     { title: 'Skills', href: '#skills' },
     { title: 'Experience', href: '#experience' },
     { title: 'Projects', href: '#projects' },
+    { title: 'Career Interests', href: '#career-interests' },
     { title: 'LinkedIn', href: '#linkedin' },
     { title: 'Contact', href: '#contact' },
   ];

@@ -57,13 +57,13 @@ const Contact = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <ContactInfo isDarkTheme={isDarkTheme}>
-            <h3>Contact Information</h3>
+            {/* <h3>Contact Information</h3>
             <InfoItem isDarkTheme={isDarkTheme}>
               <FaPhone /> {contactInfo.phone}
             </InfoItem>
             <InfoItem isDarkTheme={isDarkTheme}>
               <FaEnvelope /> {contactInfo.email}
-            </InfoItem>
+            </InfoItem> */}
             <InfoText isDarkTheme={isDarkTheme}>
               Feel free to reach out for collaborations, opportunities, or just to say hello!
             </InfoText>
