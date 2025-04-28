@@ -7,23 +7,26 @@ const Education = () => {
   const { isDarkTheme } = useTheme();
   const educationData = [
     {
-      degree: 'Bachelor of Science (Hons) in Information Technology',
-      school: 'Asia Pacific University',
-      year: '2020 - 2023',
-      cgpa: 'CGPA: 3.67',
+      degree: 'Secondary School',
+      school: 'SMK SERI PERLING',
+      year: '2015 - 2019',
+      cgpa: 'SPM: 7A 2B',
+      specialization: 'Accounting stream with additional mathematics and economics'
     },
     {
       degree: 'Diploma in Information & Communication Technology',
       school: 'Asia Pacific University',
       year: '2017 - 2020',
       cgpa: 'CGPA: 3.53',
+      specialization: 'Software Engineering'
     },
     {
-      degree: 'Secondary School',
-      school: 'SMK SERI PERLING',
-      year: '2015 - 2019',
-      cgpa: 'SPM: 7A 2B',
-    },
+      degree: 'Bachelor of Science (Hons) in Information Technology',
+      school: 'Asia Pacific University',
+      year: '2020 - 2023',
+      cgpa: 'CGPA: 3.67',
+      specialization: 'Mobile Technology'
+    }
   ];
 
   return (
@@ -43,6 +46,7 @@ const Education = () => {
                 <School isDarkTheme={isDarkTheme}>{edu.school}</School>
                 <Year isDarkTheme={isDarkTheme}>{edu.year}</Year>
                 <Cgpa isDarkTheme={isDarkTheme}>{edu.cgpa}</Cgpa>
+                <Specialization isDarkTheme={isDarkTheme}>{edu.specialization}</Specialization>
               </EducationCard>
             </motion.div>
           ))}
@@ -125,6 +129,13 @@ const Year = styled.p`
 const Cgpa = styled.p`
   font-size: 1rem;
   color: ${props => props.isDarkTheme ? '#94a3b8' : '#666666'};
+  transition: color 0.3s ease;
+`;
+
+const Specialization = styled.p`
+  font-size: 1rem;
+  color: ${props => props.isDarkTheme ? '#94a3b8' : '#666666'};
+  margin-top: 0.5rem;
   transition: color 0.3s ease;
 `;
 

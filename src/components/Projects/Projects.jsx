@@ -3,15 +3,55 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 
+// Import all Nutricare images
+import nutrica1 from '../../assets/Nutricare/1.png';
+import nutrica2 from '../../assets/Nutricare/2.png';
+import nutrica3 from '../../assets/Nutricare/3.png';
+import nutrica4 from '../../assets/Nutricare/4.png';
+import nutrica5 from '../../assets/Nutricare/5.png';
+import nutrica6 from '../../assets/Nutricare/6.png';
+import nutrica7 from '../../assets/Nutricare/7.png';
+import nutrica8 from '../../assets/Nutricare/8.png';
+import nutrica9 from '../../assets/Nutricare/9.png';
+import nutrica10 from '../../assets/Nutricare/10.png';
+import nutrica11 from '../../assets/Nutricare/11.png';
+import nutrica12 from '../../assets/Nutricare/12.png';
+import nutrica13 from '../../assets/Nutricare/13.png';
+import nutrica14 from '../../assets/Nutricare/14.png';
+import nutrica15 from '../../assets/Nutricare/15.png';
+import nutrica16 from '../../assets/Nutricare/16.png';
+import nutrica17 from '../../assets/Nutricare/17.png';
+import nutrica18 from '../../assets/Nutricare/18.png';
+import nutrica19 from '../../assets/Nutricare/19.png';
+import nutrica20 from '../../assets/Nutricare/20.png';
+
 const Projects = () => {
   const { isDarkTheme } = useTheme();
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const nutricaImages = Array.from({ length: 20 }, (_, i) => ({
-    id: i + 1,
-    url: `/src/assets/Nutricare/${i + 1}.png`
-  }));
+  const nutricaImages = [
+    { id: 1, url: nutrica1 },
+    { id: 2, url: nutrica2 },
+    { id: 3, url: nutrica3 },
+    { id: 4, url: nutrica4 },
+    { id: 5, url: nutrica5 },
+    { id: 6, url: nutrica6 },
+    { id: 7, url: nutrica7 },
+    { id: 8, url: nutrica8 },
+    { id: 9, url: nutrica9 },
+    { id: 10, url: nutrica10 },
+    { id: 11, url: nutrica11 },
+    { id: 12, url: nutrica12 },
+    { id: 13, url: nutrica13 },
+    { id: 14, url: nutrica14 },
+    { id: 15, url: nutrica15 },
+    { id: 16, url: nutrica16 },
+    { id: 17, url: nutrica17 },
+    { id: 18, url: nutrica18 },
+    { id: 19, url: nutrica19 },
+    { id: 20, url: nutrica20 }
+  ];
 
   const handleImageClick = (image, index) => {
     setSelectedImage(image);
@@ -40,12 +80,12 @@ const Projects = () => {
     <ProjectsContainer id="projects" isDarkTheme={isDarkTheme}>
       <ProjectsContent>
         <Title isDarkTheme={isDarkTheme}>Projects</Title>
-        <ProjectCard>
+        <ProjectCard isDarkTheme={isDarkTheme}>
           <ProjectHeader>
-            <ProjectTitle>NutriCare</ProjectTitle>
-            <ProjectDescription>
+            <ProjectTitle isDarkTheme={isDarkTheme}>NutriCare</ProjectTitle>
+            <ProjectDescription isDarkTheme={isDarkTheme}>
               A comprehensive nutrition tracking and meal planning application that helps users maintain a healthy lifestyle.
-              Features include meal logging, nutrition analysis, and personalized recommendations.
+              Features include meal logging, consultation services, appointment scheduling, nutrition analysis, and personalized recommendations.
             </ProjectDescription>
           </ProjectHeader>
           <ImageGrid>
@@ -55,9 +95,10 @@ const Projects = () => {
                 onClick={() => handleImageClick(image, index)}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
+                isDarkTheme={isDarkTheme}
               >
                 <ProjectImage src={image.url} alt={`NutriCare Screenshot ${image.id}`} />
-                <ImageNumber>{image.id}</ImageNumber>
+                <ImageNumber isDarkTheme={isDarkTheme}>{image.id}</ImageNumber>
               </ImageWrapper>
             ))}
           </ImageGrid>
@@ -65,6 +106,7 @@ const Projects = () => {
             href="https://fypnutricare.my.canva.site/" 
             target="_blank" 
             rel="noopener noreferrer"
+            isDarkTheme={isDarkTheme}
           >
             View More
           </ViewMoreButton>
@@ -86,14 +128,22 @@ const Projects = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <CloseButton onClick={handleCloseModal}>×</CloseButton>
-              <NavigationButton left onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}>
+              <NavigationButton 
+                left 
+                onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
+                isDarkTheme={isDarkTheme}
+              >
                 ‹
               </NavigationButton>
-              <NavigationButton right onClick={(e) => { e.stopPropagation(); handleNextImage(); }}>
+              <NavigationButton 
+                right 
+                onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
+                isDarkTheme={isDarkTheme}
+              >
                 ›
               </NavigationButton>
               <ModalImage src={nutricaImages[currentImageIndex].url} alt={`NutriCare Screenshot ${currentImageIndex + 1}`} />
-              <ImageCounter>
+              <ImageCounter isDarkTheme={isDarkTheme}>
                 {currentImageIndex + 1} / {nutricaImages.length}
               </ImageCounter>
             </ModalContent>
@@ -175,6 +225,9 @@ const ImageWrapper = styled(motion.div)`
   border-radius: 8px;
   overflow: hidden;
   height: 200px;
+  background: ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.1)' : '#f8f9fa'};
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.2)' : '#e9ecef'};
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 `;
 
 const ProjectImage = styled.img`
@@ -188,7 +241,7 @@ const ImageNumber = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(29, 78, 216, 0.8);
+  background: ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.8)' : 'rgba(29, 78, 216, 0.8)'};
   color: #e0e0e0;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -242,7 +295,7 @@ const ViewMoreButton = styled.a`
   display: inline-block;
   margin-top: 2rem;
   padding: 0.8rem 1.5rem;
-  background-color: #1d4ed8;
+  background-color: ${props => props.isDarkTheme ? '#1d4ed8' : '#1d4ed8'};
   color: #e0e0e0;
   text-decoration: none;
   border-radius: 5px;
@@ -251,7 +304,7 @@ const ViewMoreButton = styled.a`
   text-align: center;
 
   &:hover {
-    background-color: #1e40af;
+    background-color: ${props => props.isDarkTheme ? '#1e40af' : '#1e40af'};
     transform: translateY(-2px);
   }
 
@@ -264,9 +317,9 @@ const NavigationButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(17, 34, 64, 0.8);
-  color: #60a5fa;
-  border: 2px solid #60a5fa;
+  background: ${props => props.isDarkTheme ? 'rgba(17, 34, 64, 0.8)' : 'rgba(17, 34, 64, 0.8)'};
+  color: ${props => props.isDarkTheme ? '#60a5fa' : '#60a5fa'};
+  border: 2px solid ${props => props.isDarkTheme ? '#60a5fa' : '#60a5fa'};
   width: 50px;
   height: 50px;
   border-radius: 15px;
@@ -280,8 +333,8 @@ const NavigationButton = styled.button`
   backdrop-filter: blur(5px);
 
   &:hover {
-    background: #60a5fa;
-    color: #112240;
+    background: ${props => props.isDarkTheme ? '#60a5fa' : '#60a5fa'};
+    color: ${props => props.isDarkTheme ? '#112240' : '#112240'};
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
   }
@@ -302,7 +355,7 @@ const ImageCounter = styled.div`
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
+  background: ${props => props.isDarkTheme ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.7)'};
   color: #e0e0e0;
   padding: 0.5rem 1rem;
   border-radius: 20px;

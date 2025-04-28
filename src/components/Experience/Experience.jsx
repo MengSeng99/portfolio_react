@@ -12,6 +12,7 @@ const Experience = () => {
       location: 'Johor Bahru',
       period: 'January 2020 - July 2020',
       duration: '7 mos',
+      employmentType: 'Part-time',
       logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT25MjqFjlSQH8v5mLs2yJx0K8cixmsVIHyRA&s',
       responsibilities: [
         'Consulted clients on network-related issues and provided expert solutions.',
@@ -25,6 +26,7 @@ const Experience = () => {
       location: 'Selangor',
       period: 'August 2022 - September 2022',
       duration: '2 mos',
+      employmentType: 'Internship',
       logo: 'https://www.jobsbank.com.my/wp-content/uploads/wp-job-board-pro-uploads/cropped_images/cropped_Youth-Today-PP-1651029365.jpg',
       responsibilities: [
         'Designed user interfaces and prototypes to enhance company workflow.',
@@ -32,11 +34,12 @@ const Experience = () => {
       ]
     },
     {
-      title: 'Information Technology',
+      title: 'Software Developer',
       company: 'TiongNam Logistics',
       location: 'Johor Bahru',
       period: 'Jan 2024 - April 2024',
       duration: '4 mos',
+      employmentType: 'Internship',
       logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj9dlgd4WRHmff3ZGgrdXWJqVkTX2KcZbvGA&s',
       responsibilities: [
         'Suggested ideas for software development to enhance efficiency.',
@@ -67,7 +70,7 @@ const Experience = () => {
                   <Company isDarkTheme={isDarkTheme}>{exp.company}</Company>
                   <Location isDarkTheme={isDarkTheme}>{exp.location}</Location>
                   <Period isDarkTheme={isDarkTheme}>
-                    {exp.period} ({exp.duration})
+                    {exp.period} ({exp.duration}) - {exp.employmentType}
                   </Period>
                 </ExperienceHeader>
                 <Responsibilities>
@@ -125,6 +128,9 @@ const ExperienceCard = styled.div`
   border-radius: 10px;
   border: 1px solid ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.2)' : '#e9ecef'};
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const CompanyLogo = styled.img`
@@ -178,6 +184,10 @@ const Period = styled.p`
 const Responsibilities = styled.ul`
   list-style-type: none;
   padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Responsibility = styled.li`
@@ -187,12 +197,17 @@ const Responsibility = styled.li`
   padding-left: 1.5rem;
   position: relative;
   transition: color 0.3s ease;
+  flex: 1;
 
   &:before {
     content: '•';
     color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
     position: absolute;
     left: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;
 

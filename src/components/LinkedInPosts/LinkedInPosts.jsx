@@ -61,7 +61,6 @@ It was also a fantastic opportunity to network with like-minded individuals, exc
                     <p key={idx}>{paragraph.trim()}</p>
                   ))}
                 </PostContent>
-                <PostDate isDarkTheme={isDarkTheme}>{post.date}</PostDate>
                 <PostLink
                   href={post.link}
                   target="_blank"
@@ -118,6 +117,9 @@ const PostCard = styled.div`
   border-radius: 10px;
   border: 1px solid ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.2)' : '#e9ecef'};
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const PostHeader = styled.div`
@@ -135,18 +137,26 @@ const PostHeader = styled.div`
 const PostTitle = styled.h3`
   font-size: 1.5rem;
   color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
-  margin-bottom: 1rem;
+  margin: 0;
   transition: color 0.3s ease;
 `;
 
 const PostContent = styled.div`
+  flex-grow: 1;
   color: ${props => props.isDarkTheme ? '#94a3b8' : '#666666'};
-  font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 
   p {
     margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 `;
 
@@ -158,11 +168,12 @@ const PostDate = styled.p`
 `;
 
 const PostLink = styled.a`
-  display: inline-block;
   color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  margin-top: auto;
+  display: inline-block;
 
   &:hover {
     text-decoration: underline;
