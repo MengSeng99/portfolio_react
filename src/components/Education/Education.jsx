@@ -16,14 +16,14 @@ const Education = () => {
     {
       degree: 'Diploma in Information & Communication Technology',
       school: 'Asia Pacific University',
-      year: '2017 - 2020',
+      year: '2020 - 2022',
       cgpa: 'CGPA: 3.53',
       specialization: 'Software Engineering'
     },
     {
       degree: 'Bachelor of Science (Hons) in Information Technology',
       school: 'Asia Pacific University',
-      year: '2020 - 2023',
+      year: '2023 - 2025',
       cgpa: 'CGPA: 3.67',
       specialization: 'Mobile Technology'
     }
