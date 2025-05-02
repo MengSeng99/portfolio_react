@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
-import { SiFlutter, SiDotnet, SiFigma } from 'react-icons/si';
+import { SiFlutter, SiDotnet, SiFigma, SiKotlin } from 'react-icons/si';
 
 // Import NutriCare images
 import nutrica1 from '../../assets/mobile/nutricare/1.png';
@@ -25,6 +25,18 @@ import nutrica17 from '../../assets/mobile/nutricare/17.png';
 import nutrica18 from '../../assets/mobile/nutricare/18.png';
 import nutrica19 from '../../assets/mobile/nutricare/19.png';
 import nutrica20 from '../../assets/mobile/nutricare/20.png';
+
+// Import APFood images
+import apfood1 from '../../assets/mobile/apfood/1.png';
+import apfood2 from '../../assets/mobile/apfood/2.png';
+import apfood3 from '../../assets/mobile/apfood/3.png';
+import apfood4 from '../../assets/mobile/apfood/4.png';
+import apfood5 from '../../assets/mobile/apfood/5.png';
+import apfood6 from '../../assets/mobile/apfood/6.png';
+import apfood7 from '../../assets/mobile/apfood/7.png';
+import apfood8 from '../../assets/mobile/apfood/8.png';
+import apfood9 from '../../assets/mobile/apfood/9.png';
+import apfood10 from '../../assets/mobile/apfood/10.png';
 
 // Import JGH images
 import jgh1 from '../../assets/web/jgh/1.jpeg';
@@ -49,6 +61,51 @@ import yt7 from '../../assets/uiux/yt/7.png';
 import yt8 from '../../assets/uiux/yt/8.png';
 import yt9 from '../../assets/uiux/yt/9.png';
 import yt10 from '../../assets/uiux/yt/10.png';
+import yt11 from '../../assets/uiux/yt/11.png';
+
+// Import Asadi images
+import asadi1 from '../../assets/uiux/Asadi/1.png';
+import asadi2 from '../../assets/uiux/Asadi/2.png';
+import asadi3 from '../../assets/uiux/Asadi/3.png';
+import asadi4 from '../../assets/uiux/Asadi/4.png';
+import asadi5 from '../../assets/uiux/Asadi/5.png';
+import asadi6 from '../../assets/uiux/Asadi/6.png';
+import asadi7 from '../../assets/uiux/Asadi/7.png';
+import asadi8 from '../../assets/uiux/Asadi/8.png';
+import asadi9 from '../../assets/uiux/Asadi/9.png';
+
+// Import Legal101 images
+import legal1 from '../../assets/uiux/Legal101/1.png';
+import legal2 from '../../assets/uiux/Legal101/2.png';
+import legal3 from '../../assets/uiux/Legal101/3.png';
+import legal4 from '../../assets/uiux/Legal101/4.png';
+import legal5 from '../../assets/uiux/Legal101/5.png';
+import legal6 from '../../assets/uiux/Legal101/6.png';
+import legal7 from '../../assets/uiux/Legal101/7.png';
+import legal8 from '../../assets/uiux/Legal101/8.png';
+
+// Import APCard images
+import apcard1 from '../../assets/uiux/APCard/1.png';
+import apcard2 from '../../assets/uiux/APCard/2.png';
+import apcard3 from '../../assets/uiux/APCard/3.png';
+import apcard4 from '../../assets/uiux/APCard/4.png';
+import apcard5 from '../../assets/uiux/APCard/5.png';
+import apcard6 from '../../assets/uiux/APCard/6.png';
+import apcard7 from '../../assets/uiux/APCard/7.png';
+
+// Import NutriMate images
+import nutrimate1 from '../../assets/uiux/NutriMate/1.png';
+import nutrimate2 from '../../assets/uiux/NutriMate/2.png';
+import nutrimate3 from '../../assets/uiux/NutriMate/3.png';
+import nutrimate4 from '../../assets/uiux/NutriMate/4.png';
+import nutrimate5 from '../../assets/uiux/NutriMate/5.png';
+import nutrimate6 from '../../assets/uiux/NutriMate/6.png';
+import nutrimate7 from '../../assets/uiux/NutriMate/7.png';
+import nutrimate8 from '../../assets/uiux/NutriMate/8.png';
+import nutrimate9 from '../../assets/uiux/NutriMate/9.png';
+import nutrimate10 from '../../assets/uiux/NutriMate/10.png';
+import nutrimate11 from '../../assets/uiux/NutriMate/11.png';
+import nutrimate12 from '../../assets/uiux/NutriMate/12.png';
 
 const Projects = () => {
   const { isDarkTheme } = useTheme();
@@ -66,6 +123,13 @@ const Projects = () => {
     { id: 19, url: nutrica19 }, { id: 20, url: nutrica20 }
   ];
 
+  const apfoodImages = [
+    { id: 1, url: apfood1 }, { id: 2, url: apfood2 }, { id: 3, url: apfood3 },
+    { id: 4, url: apfood4 }, { id: 5, url: apfood5 }, { id: 6, url: apfood6 },
+    { id: 7, url: apfood7 }, { id: 8, url: apfood8 }, { id: 9, url: apfood9 },
+    { id: 10, url: apfood10 }
+  ];
+
   const jghImages = [
     { id: 1, url: jgh1 }, { id: 2, url: jgh2 }, { id: 3, url: jgh3 },
     { id: 4, url: jgh4 }, { id: 5, url: jgh5 }, { id: 6, url: jgh6 },
@@ -77,7 +141,32 @@ const Projects = () => {
     { id: 1, url: yt1 }, { id: 2, url: yt2 }, { id: 3, url: yt3 },
     { id: 4, url: yt4 }, { id: 5, url: yt5 }, { id: 6, url: yt6 },
     { id: 7, url: yt7 }, { id: 8, url: yt8 }, { id: 9, url: yt9 },
-    { id: 10, url: yt10 }
+    { id: 10, url: yt10 }, { id: 11, url: yt11 }
+  ];
+
+  const asadiImages = [
+    { id: 1, url: asadi1 }, { id: 2, url: asadi2 }, { id: 3, url: asadi3 },
+    { id: 4, url: asadi4 }, { id: 5, url: asadi5 }, { id: 6, url: asadi6 },
+    { id: 7, url: asadi7 }, { id: 8, url: asadi8 }, { id: 9, url: asadi9 }
+  ];
+
+  const legalImages = [
+    { id: 1, url: legal1 }, { id: 2, url: legal2 }, { id: 3, url: legal3 },
+    { id: 4, url: legal4 }, { id: 5, url: legal5 }, { id: 6, url: legal6 },
+    { id: 7, url: legal7 }, { id: 8, url: legal8 }
+  ];
+
+  const apcardImages = [
+    { id: 1, url: apcard1 }, { id: 2, url: apcard2 }, { id: 3, url: apcard3 },
+    { id: 4, url: apcard4 }, { id: 5, url: apcard5 }, { id: 6, url: apcard6 },
+    { id: 7, url: apcard7 }
+  ];
+
+  const nutrimateImages = [
+    { id: 1, url: nutrimate1 }, { id: 2, url: nutrimate2 }, { id: 3, url: nutrimate3 },
+    { id: 4, url: nutrimate4 }, { id: 5, url: nutrimate5 }, { id: 6, url: nutrimate6 },
+    { id: 7, url: nutrimate7 }, { id: 8, url: nutrimate8 }, { id: 9, url: nutrimate9 },
+    { id: 10, url: nutrimate10 }, { id: 11, url: nutrimate11 }, { id: 12, url: nutrimate12 }
   ];
 
   const projects = [
@@ -89,6 +178,15 @@ const Projects = () => {
       type: 'mobile',
       tech: { icon: SiFlutter, name: 'Flutter' },
       link: 'https://fypnutricare.my.canva.site/'
+    },
+    {
+      id: 'apfood',
+      title: 'APFood',
+      description: 'A food delivery and restaurant management application that connects customers with local restaurants. Features include real-time order tracking, menu management, payment processing, and restaurant analytics.',
+      images: apfoodImages,
+      type: 'mobile',
+      tech: { icon: SiKotlin, name: 'Kotlin' },
+      link: '#'
     },
     {
       id: 'jgh',
@@ -104,6 +202,42 @@ const Projects = () => {
       title: 'YTODAY User Panel',
       description: 'A user panel designed to enhance company workflow and improve efficiency through intuitive interface and streamlined processes.',
       images: ytImages,
+      type: 'uiux',
+      tech: { icon: SiFigma, name: 'Figma' },
+      link: '#'
+    },
+    {
+      id: 'asadi',
+      title: 'Asadi',
+      description: 'A modern and intuitive user interface design for a business platform, focusing on user experience and visual appeal.',
+      images: asadiImages,
+      type: 'uiux',
+      tech: { icon: SiFigma, name: 'Figma' },
+      link: '#'
+    },
+    {
+      id: 'legal101',
+      title: 'Legal101',
+      description: 'A user-friendly interface design for a legal consultation platform, emphasizing accessibility and ease of use.',
+      images: legalImages,
+      type: 'uiux',
+      tech: { icon: SiFigma, name: 'Figma' },
+      link: '#'
+    },
+    {
+      id: 'apcard',
+      title: 'APCard',
+      description: 'A sleek and modern design for a digital card management system, focusing on user interaction and visual hierarchy.',
+      images: apcardImages,
+      type: 'uiux',
+      tech: { icon: SiFigma, name: 'Figma' },
+      link: '#'
+    },
+    {
+      id: 'nutrimate',
+      title: 'NutriMate',
+      description: 'A comprehensive nutrition tracking app design with a focus on user engagement and data visualization.',
+      images: nutrimateImages,
       type: 'uiux',
       tech: { icon: SiFigma, name: 'Figma' },
       link: '#'
