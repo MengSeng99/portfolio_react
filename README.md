@@ -61,14 +61,6 @@ src/
 └── App.jsx           # Main application component
 ```
 
-## Deployment
-
-The project can be deployed to any static hosting service like Vercel, Netlify, or GitHub Pages.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contact
 
 - Email: kohmengsengapu@gmail.com
