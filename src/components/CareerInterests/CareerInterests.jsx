@@ -97,8 +97,8 @@ const CareerInterests = () => {
       preference: "Primary"
     },
     {
-      title: "QA Tester",
-      description: "Interested in starting a career in Quality Assurance testing. Eager to learn and grow in software testing methodologies and best practices. No prior experience required.",
+      title: "IT Project Manager",
+      description: "Interested in IT project management opportunities to plan, coordinate, and deliver technology projects effectively while collaborating with cross-functional teams.",
       locations: ["Singapore (Visa sponsorship required)", "Johor Bahru"],
       preference: "Secondary"
     },

@@ -1,8 +1,28 @@
 import React from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { keyframes } from 'styled-components';
+import { motion as Motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { FaLinkedin } from 'react-icons/fa';
+
+const drift = keyframes`
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(8px, -12px, 0) scale(1.04); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+`;
+
+const TopRightGlow = styled.span`
+  position: absolute;
+  top: -7rem;
+  right: -4rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  pointer-events: none;
+  background: ${props => (props.isDarkTheme ? 'rgba(96,165,250,0.19)' : 'rgba(96,165,250,0.13)')};
+  filter: blur(26px);
+  animation: ${drift} 9s ease-in-out infinite;
+  z-index: 0;
+`;
 
 const LinkedInPosts = () => {
   const { isDarkTheme } = useTheme();
@@ -41,11 +61,12 @@ It was also a fantastic opportunity to network with like-minded individuals, exc
 
   return (
     <LinkedInContainer id="linkedin" isDarkTheme={isDarkTheme}>
+      <TopRightGlow isDarkTheme={isDarkTheme} />
       <LinkedInContent>
         <Title isDarkTheme={isDarkTheme}>LinkedIn Posts</Title>
         <PostsGrid>
           {posts.map((post, index) => (
-            <motion.div
+            <Motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -70,7 +91,7 @@ It was also a fantastic opportunity to network with like-minded individuals, exc
                   Read on LinkedIn
                 </PostLink>
               </PostCard>
-            </motion.div>
+            </Motion.div>
           ))}
         </PostsGrid>
       </LinkedInContent>
@@ -79,6 +100,8 @@ It was also a fantastic opportunity to network with like-minded individuals, exc
 };
 
 const LinkedInContainer = styled.section`
+  position: relative;
+  overflow: hidden;
   padding: 5rem 5%;
   background-color: ${props => props.isDarkTheme ? '#0a192f' : '#ffffff'};
   color: ${props => props.isDarkTheme ? '#e0e0e0' : '#333333'};
@@ -86,6 +109,8 @@ const LinkedInContainer = styled.section`
 `;
 
 const LinkedInContent = styled.div`
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
 `;

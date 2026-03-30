@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { SiFlutter, SiDotnet, SiFigma, SiKotlin } from 'react-icons/si';
@@ -112,6 +112,8 @@ const Projects = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
 
   const nutricaImages = [
     { id: 1, url: nutrica1 }, { id: 2, url: nutrica2 }, { id: 3, url: nutrica3 },
@@ -269,11 +271,46 @@ const Projects = () => {
     );
   };
 
+  const handleTouchStart = (e) => {
+    const x = e.touches[0].clientX;
+    setTouchStartX(x);
+    setTouchEndX(x);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+
+    const swipeDistance = touchStartX - touchEndX;
+    const minSwipeDistance = 50;
+
+    if (swipeDistance > minSwipeDistance) {
+      handleNextImage();
+    } else if (swipeDistance < -minSwipeDistance) {
+      handlePrevImage();
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
+
   return (
     <ProjectsContainer id="projects" isDarkTheme={isDarkTheme}>
+      <TopLeftGlow isDarkTheme={isDarkTheme} />
+      <BottomRightGlow isDarkTheme={isDarkTheme} />
+
       <ProjectsContent>
-        <Title isDarkTheme={isDarkTheme}>Projects</Title>
-        <FilterContainer>
+        <SectionHeading>
+          <Title isDarkTheme={isDarkTheme}>Projects</Title>
+          <SectionSubtitle isDarkTheme={isDarkTheme}>
+            A selection of web, mobile, and UI/UX work delivered across academic and professional projects.
+          </SectionSubtitle>
+        </SectionHeading>
+
+        <FilterContainer isDarkTheme={isDarkTheme}>
           <FilterButton 
             onClick={() => setActiveFilter('all')}
             active={activeFilter === 'all'}
@@ -303,48 +340,71 @@ const Projects = () => {
             UI/UX Design
           </FilterButton>
         </FilterContainer>
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} isDarkTheme={isDarkTheme}>
-            <ProjectHeader>
-              <ProjectTitle isDarkTheme={isDarkTheme}>
-                {project.title}
-                <TechStack>
-                  <TechIcon isDarkTheme={isDarkTheme}>
-                    <project.tech.icon />
-                    {project.tech.name}
-                  </TechIcon>
-                </TechStack>
-              </ProjectTitle>
-              <ProjectDescription isDarkTheme={isDarkTheme}>
-                {project.description}
-              </ProjectDescription>
-            </ProjectHeader>
-            <ImageGrid isDarkTheme={isDarkTheme}>
-              {project.images.map((image, index) => (
-                <ImageWrapper
-                  key={image.id}
-                  onClick={() => handleImageClick(project.images, index)}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
-                  isDarkTheme={isDarkTheme}
-                >
-                  <ProjectImage src={image.url} alt={`${project.title} Screenshot ${image.id}`} />
-                  <ImageNumber isDarkTheme={isDarkTheme}>{image.id}</ImageNumber>
-                </ImageWrapper>
-              ))}
-            </ImageGrid>
-            {project.id === 'nutricare' && (
-              <ViewMoreButton 
-                href={project.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
+
+        <ProjectsGrid>
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.id} isDarkTheme={isDarkTheme}>
+              <ProjectMedia
                 isDarkTheme={isDarkTheme}
+                onClick={() => handleImageClick(project.images, 0)}
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 0.2 }}
               >
-                View More
-              </ViewMoreButton>
-            )}
-          </ProjectCard>
-        ))}
+                <ProjectImage src={project.images[0].url} alt={`${project.title} cover`} />
+                <MediaOverlay>
+                  <MediaBadge isDarkTheme={isDarkTheme}>{project.images.length} Screens</MediaBadge>
+                  <MediaHint>Tap to preview</MediaHint>
+                </MediaOverlay>
+              </ProjectMedia>
+
+              <ProjectBody>
+                <ProjectHeader>
+                  <ProjectTitle isDarkTheme={isDarkTheme}>{project.title}</ProjectTitle>
+                  <TechStack>
+                    <TechIcon isDarkTheme={isDarkTheme}>
+                      <project.tech.icon />
+                      {project.tech.name}
+                    </TechIcon>
+                    <TypeTag isDarkTheme={isDarkTheme}>{project.type.toUpperCase()}</TypeTag>
+                  </TechStack>
+                  <ProjectDescription isDarkTheme={isDarkTheme}>
+                    {project.description}
+                  </ProjectDescription>
+                </ProjectHeader>
+
+                <ImageGrid isDarkTheme={isDarkTheme}>
+                  {project.images.slice(0, 6).map((image, index) => (
+                    <ImageWrapper
+                      key={image.id}
+                      onClick={() => handleImageClick(project.images, index)}
+                      whileHover={{ scale: 1.04 }}
+                      transition={{ duration: 0.2 }}
+                      isDarkTheme={isDarkTheme}
+                    >
+                      <ProjectImage src={image.url} alt={`${project.title} Screenshot ${image.id}`} />
+                      <ImageNumber isDarkTheme={isDarkTheme}>{image.id}</ImageNumber>
+                    </ImageWrapper>
+                  ))}
+                </ImageGrid>
+
+                <ActionRow>
+                  {project.link !== '#' ? (
+                    <ViewMoreButton 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      isDarkTheme={isDarkTheme}
+                    >
+                      View Project
+                    </ViewMoreButton>
+                  ) : (
+                    <MutedText isDarkTheme={isDarkTheme}></MutedText>
+                  )}
+                </ActionRow>
+              </ProjectBody>
+            </ProjectCard>
+          ))}
+        </ProjectsGrid>
       </ProjectsContent>
 
       <AnimatePresence>
@@ -356,12 +416,19 @@ const Projects = () => {
             onClick={handleCloseModal}
           >
             <ModalContent
+              isDarkTheme={isDarkTheme}
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
               onClick={(e) => e.stopPropagation()}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
-              <CloseButton onClick={handleCloseModal}>×</CloseButton>
+              <CloseButton onClick={handleCloseModal} isDarkTheme={isDarkTheme} aria-label="Close preview">
+                <CloseGlyph aria-hidden="true">×</CloseGlyph>
+                <CloseLabel>Close</CloseLabel>
+              </CloseButton>
               <NavigationButton 
                 left 
                 onClick={(e) => {
@@ -369,8 +436,10 @@ const Projects = () => {
                   handlePrevImage();
                 }}
                 isDarkTheme={isDarkTheme}
+                aria-label="Previous image"
               >
-                ‹
+                <NavArrow aria-hidden="true">‹</NavArrow>
+                <NavText>Prev</NavText>
               </NavigationButton>
               <NavigationButton 
                 right 
@@ -379,8 +448,10 @@ const Projects = () => {
                   handleNextImage();
                 }}
                 isDarkTheme={isDarkTheme}
+                aria-label="Next image"
               >
-                ›
+                <NavText>Next</NavText>
+                <NavArrow aria-hidden="true">›</NavArrow>
               </NavigationButton>
               <ModalImage 
                 src={selectedImage[currentImageIndex].url} 
@@ -397,22 +468,78 @@ const Projects = () => {
   );
 };
 
+const drift = keyframes`
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(8px, -12px, 0) scale(1.04); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+`;
+
 const ProjectsContainer = styled.section`
+  position: relative;
+  overflow: hidden;
   padding: 5rem 5%;
-  background-color: ${props => props.isDarkTheme ? '#0a192f' : '#ffffff'};
+  background: ${props => (props.isDarkTheme
+    ? '#0a192f'
+    : '#ffffff')};
   color: ${props => props.isDarkTheme ? '#e0e0e0' : '#333333'};
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
+
+  @media (max-width: 768px) {
+    padding: 4rem 1rem;
+  }
+`;
+
+const TopLeftGlow = styled.span`
+  position: absolute;
+  top: -6rem;
+  left: -4rem;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  pointer-events: none;
+  background: ${props => (props.isDarkTheme ? 'rgba(30,64,175,0.2)' : 'rgba(30,64,175,0.12)')};
+  filter: blur(30px);
+  animation: ${drift} 10s ease-in-out infinite reverse;
+`;
+
+const BottomRightGlow = styled.span`
+  position: absolute;
+  bottom: -7rem;
+  right: -4rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  pointer-events: none;
+  background: ${props => (props.isDarkTheme ? 'rgba(96,165,250,0.19)' : 'rgba(96,165,250,0.13)')};
+  filter: blur(26px);
+  animation: ${drift} 9s ease-in-out infinite;
 `;
 
 const ProjectsContent = styled.div`
-  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  max-width: 1250px;
   margin: 0 auto;
+  display: grid;
+  gap: 1.6rem;
+`;
+
+const SectionHeading = styled.div`
+  display: grid;
+  gap: 0.5rem;
+`;
+
+const SectionSubtitle = styled.p`
+  max-width: 760px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: ${props => props.isDarkTheme ? '#94a3b8' : '#4b5563'};
 `;
 
 const Title = styled.h2`
   font-size: 2.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 0.2rem;
   color: ${props => props.isDarkTheme ? '#e0e0e0' : '#333333'};
   transition: color 0.3s ease;
 
@@ -422,31 +549,100 @@ const Title = styled.h2`
 `;
 
 const ProjectCard = styled.div`
-  background: ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.1)' : '#f8f9fa'};
-  padding: 2rem;
-  border-radius: 10px;
-  border: 1px solid ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.2)' : '#e9ecef'};
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  background: ${props => props.isDarkTheme ? 'rgba(15, 23, 42, 0.7)' : 'rgba(255, 255, 255, 0.9)'};
+  border-radius: 18px;
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(96, 165, 250, 0.2)' : 'rgba(37, 99, 235, 0.14)'};
+  box-shadow: ${props => props.isDarkTheme ? '0 12px 32px rgba(2, 6, 23, 0.35)' : '0 14px 30px rgba(15, 23, 42, 0.08)'};
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.3s ease;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: ${props => props.isDarkTheme ? '0 16px 34px rgba(2, 6, 23, 0.42)' : '0 20px 36px rgba(15, 23, 42, 0.12)'};
+  }
+`;
+
+const ProjectsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.3rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ProjectMedia = styled(motion.button)`
+  width: 100%;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  height: 220px;
+  background: ${props => props.isDarkTheme ? 'rgba(30, 41, 59, 0.55)' : '#f3f4f6'};
+  border-bottom: 1px solid ${props => props.isDarkTheme ? 'rgba(148, 163, 184, 0.25)' : '#e5e7eb'};
+
+  @media (max-width: 768px) {
+    height: 190px;
+  }
+`;
+
+const MediaOverlay = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.65rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to top, rgba(2, 6, 23, 0.75), rgba(2, 6, 23, 0));
+`;
+
+const MediaBadge = styled.span`
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: ${props => props.isDarkTheme ? '#dbeafe' : '#eff6ff'};
+  background: ${props => props.isDarkTheme ? 'rgba(30, 64, 175, 0.82)' : 'rgba(29, 78, 216, 0.82)'};
+  border-radius: 999px;
+  padding: 0.28rem 0.62rem;
+`;
+
+const MediaHint = styled.span`
+  color: #e2e8f0;
+  font-size: 0.76rem;
+  font-weight: 500;
+`;
+
+const ProjectBody = styled.div`
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+
+  @media (max-width: 768px) {
+    padding: 0.9rem;
+  }
 `;
 
 const ProjectHeader = styled.div`
-  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.7rem;
 `;
 
 const ProjectTitle = styled.h3`
   font-size: 1.8rem;
   color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 `;
 
@@ -454,18 +650,18 @@ const TechStack = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  flex-wrap: wrap;
 `;
 
 const TechIcon = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.42rem 0.9rem;
   background: ${props => props.isDarkTheme ? 'rgba(96, 165, 250, 0.1)' : 'rgba(29, 78, 216, 0.1)'};
   border-radius: 9999px;
   color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   transition: all 0.3s ease;
 
@@ -475,20 +671,37 @@ const TechIcon = styled.div`
 `;
 
 const ProjectDescription = styled.p`
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 0.98rem;
+  line-height: 1.68;
+  margin: 0;
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  overflow: visible;
+  word-break: break-word;
   color: ${props => props.isDarkTheme ? '#94a3b8' : '#666666'};
   transition: color 0.3s ease;
+`;
+
+const TypeTag = styled.span`
+  padding: 0.38rem 0.72rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  color: ${props => props.isDarkTheme ? '#dbeafe' : '#1e40af'};
+  background: ${props => props.isDarkTheme ? 'rgba(30, 64, 175, 0.56)' : 'rgba(191, 219, 254, 0.6)'};
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(147, 197, 253, 0.36)' : 'rgba(59, 130, 246, 0.35)'};
 `;
 
 const ImageGrid = styled.div`
   display: flex;
   overflow-x: auto;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-bottom: 1rem;
+  gap: 0.7rem;
+  margin-top: 0.1rem;
+  padding-bottom: 0.45rem;
   scrollbar-width: thin;
   scrollbar-color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'} transparent;
+  scroll-snap-type: x mandatory;
 
   &::-webkit-scrollbar {
     height: 8px;
@@ -504,32 +717,33 @@ const ImageGrid = styled.div`
   }
 
   @media (max-width: 768px) {
-    gap: 0.5rem;
+    gap: 0.65rem;
   }
 `;
 
 const ImageWrapper = styled(motion.div)`
   position: relative;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  height: 200px;
-  min-width: 300px;
+  height: 120px;
+  min-width: 160px;
   background: ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.1)' : '#f8f9fa'};
   border: 1px solid ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.2)' : '#e9ecef'};
   transition: background-color 0.3s ease, border-color 0.3s ease;
   flex-shrink: 0;
+  scroll-snap-align: start;
 
   @media (max-width: 768px) {
-    min-width: 250px;
-    height: 180px;
+    min-width: 150px;
+    height: 110px;
   }
 `;
 
 const ProjectImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   transition: transform 0.3s ease;
 `;
 
@@ -537,10 +751,10 @@ const ImageNumber = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  background: ${props => props.isDarkTheme ? 'rgba(29, 78, 216, 0.8)' : 'rgba(29, 78, 216, 0.8)'};
+  background: ${props => props.isDarkTheme ? 'rgba(30, 64, 175, 0.88)' : 'rgba(29, 78, 216, 0.88)'};
   color: #e0e0e0;
   padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  border-radius: 999px;
   font-size: 0.8rem;
 `;
 
@@ -550,57 +764,105 @@ const Modal = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(3, 7, 18, 0.86);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(6px);
 `;
 
 const ModalContent = styled(motion.div)`
   position: relative;
-  max-width: 90%;
-  max-height: 90vh;
-  padding: 0 60px;
+  width: min(1000px, 96vw);
+  max-height: 92vh;
+  padding: 1rem 4.5rem 3.6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 20px;
+  background: ${props => props.isDarkTheme ? 'rgba(15, 23, 42, 0.6)' : 'rgba(255, 255, 255, 0.18)'};
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(148, 163, 184, 0.28)' : 'rgba(255, 255, 255, 0.35)'};
 
   @media (max-width: 768px) {
-    padding: 0 50px;
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+    padding: 0.8rem 0.9rem 5.4rem;
+    background: transparent;
+    border: none;
   }
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: -40px;
-  right: 0;
-  background: none;
-  border: none;
-  color: #e0e0e0;
-  font-size: 2rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  height: 44px;
+  border-radius: 999px;
+  padding: 0 0.85rem;
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(96, 165, 250, 0.45)' : 'rgba(191, 219, 254, 0.75)'};
+  background: ${props => props.isDarkTheme ? 'rgba(30, 41, 59, 0.72)' : 'rgba(30, 64, 175, 0.88)'};
+  color: #ffffff;
   cursor: pointer;
-  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   z-index: 1001;
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.06);
+    background: ${props => props.isDarkTheme ? 'rgba(59, 130, 246, 0.8)' : 'rgba(37, 99, 235, 0.95)'};
+  }
+
+  @media (max-width: 768px) {
+    width: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+`;
+
+const CloseGlyph = styled.span`
+  font-size: 1.35rem;
+  line-height: 1;
+`;
+
+const CloseLabel = styled.span`
+  font-size: 0.82rem;
+  text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ModalImage = styled.img`
   max-width: 100%;
-  max-height: 80vh;
+  max-height: 78vh;
   object-fit: contain;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-height: calc(100vh - 120px);
+  }
 `;
 
 const ViewMoreButton = styled.a`
   display: inline-block;
-  margin-top: 2rem;
-  padding: 0.8rem 1.5rem;
+  padding: 0.62rem 1rem;
   background-color: ${props => props.isDarkTheme ? '#1d4ed8' : '#1d4ed8'};
   color: #e0e0e0;
   text-decoration: none;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 600;
   transition: all 0.3s ease;
   text-align: center;
 
@@ -610,67 +872,129 @@ const ViewMoreButton = styled.a`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: auto;
   }
+`;
+
+const ActionRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+`;
+
+const MutedText = styled.span`
+  font-size: 0.82rem;
+  color: ${props => props.isDarkTheme ? '#94a3b8' : '#6b7280'};
 `;
 
 const NavigationButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: ${props => props.isDarkTheme ? 'rgba(17, 34, 64, 0.8)' : 'rgba(255, 255, 255, 0.8)'};
-  color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 1.5rem;
+  background: ${props => props.isDarkTheme ? 'rgba(15, 23, 42, 0.76)' : 'rgba(30, 64, 175, 0.9)'};
+  color: #ffffff;
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(96, 165, 250, 0.45)' : 'rgba(191, 219, 254, 0.75)'};
+  min-width: 94px;
+  height: 44px;
+  border-radius: 999px;
+  padding: 0 0.95rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   transition: all 0.3s ease;
   z-index: 1001;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
 
   &:hover {
-    background: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
-    color: ${props => props.isDarkTheme ? '#112240' : '#ffffff'};
+    transform: translateY(-50%) scale(1.03);
+    background: ${props => props.isDarkTheme ? 'rgba(37, 99, 235, 0.92)' : 'rgba(29, 78, 216, 0.95)'};
   }
 
-  ${props => props.left ? 'left: 10px;' : 'right: 10px;'}
+  ${props => props.left ? 'left: 12px;' : 'right: 12px;'}
 
   @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    ${props => props.left ? 'left: 5px;' : 'right: 5px;'}
+    top: auto;
+    bottom: 18px;
+    transform: none;
+    min-width: 102px;
+    height: 42px;
+    ${props => props.left ? 'left: 18px;' : 'right: 18px;'}
+
+    &:hover {
+      transform: scale(1.03);
+    }
   }
+`;
+
+const NavArrow = styled.span`
+  font-size: 1.05rem;
+  line-height: 1;
+`;
+
+const NavText = styled.span`
+  letter-spacing: 0.02em;
 `;
 
 const ImageCounter = styled.div`
   position: absolute;
-  bottom: 20px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  background: ${props => props.isDarkTheme ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.7)'};
+  background: ${props => props.isDarkTheme ? 'rgba(15, 23, 42, 0.78)' : 'rgba(30, 64, 175, 0.88)'};
   color: #e0e0e0;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 1rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  border: 1px solid ${props => props.isDarkTheme ? 'rgba(96, 165, 250, 0.45)' : 'rgba(191, 219, 254, 0.75)'};
   z-index: 1001;
+
+  @media (max-width: 768px) {
+    bottom: 20px;
+  }
 `;
 
 const FilterContainer = styled.div`
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+  margin-bottom: 0.2rem;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 0.12rem 0.12rem 0.45rem;
+  scrollbar-width: thin;
+  scrollbar-color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'} transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
+    border-radius: 20px;
+  }
+
+  @media (max-width: 768px) {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const FilterButton = styled.button`
-  padding: 0.5rem 1rem;
+  padding: 0.56rem 0.95rem;
+  flex: 0 0 auto;
   border-radius: 9999px;
   border: 1px solid ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
   background: ${props => props.active 
@@ -680,8 +1004,10 @@ const FilterButton = styled.button`
     ? props.isDarkTheme ? '#112240' : '#ffffff'
     : props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
   font-weight: 500;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
   cursor: pointer;
+  white-space: nowrap;
 
   &:hover {
     background: ${props => props.isDarkTheme ? 'rgba(96, 165, 250, 0.1)' : 'rgba(29, 78, 216, 0.1)'};
