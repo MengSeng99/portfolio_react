@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { FaWhatsapp, FaGithub, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
 
@@ -18,7 +18,7 @@ const Contact = () => {
     <ContactContainer id="contact" isDarkTheme={isDarkTheme}>
       <ContactContent>
         <Title isDarkTheme={isDarkTheme}>Get in Touch</Title>
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -49,26 +49,19 @@ const Contact = () => {
               <span>LinkedIn</span>
             </ContactItem>
           </ContactCard>
-        </motion.div>
+        </Motion.div>
 
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <ContactInfo isDarkTheme={isDarkTheme}>
-            {/* <h3>Contact Information</h3>
-            <InfoItem isDarkTheme={isDarkTheme}>
-              <FaPhone /> {contactInfo.phone}
-            </InfoItem>
-            <InfoItem isDarkTheme={isDarkTheme}>
-              <FaEnvelope /> {contactInfo.email}
-            </InfoItem> */}
             <InfoText isDarkTheme={isDarkTheme}>
               Feel free to reach out for collaborations, opportunities, or just to say hello!
             </InfoText>
           </ContactInfo>
-        </motion.div>
+        </Motion.div>
       </ContactContent>
     </ContactContainer>
   );
@@ -137,19 +130,6 @@ const ContactInfo = styled.div`
   h3 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
-  }
-`;
-
-const InfoItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  color: ${props => props.isDarkTheme ? '#94a3b8' : '#666666'};
-  transition: color 0.3s ease;
-
-  svg {
     color: ${props => props.isDarkTheme ? '#60a5fa' : '#1d4ed8'};
   }
 `;

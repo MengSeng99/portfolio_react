@@ -1,68 +1,9 @@
-# Louis Koh - Portfolio Website
+# Louis Koh Portfolio
 
-A modern, responsive portfolio website built with React and Styled Components. This portfolio showcases my skills, projects, and professional experience.
+This portfolio presents my journey as an early-career software developer and highlights the kind of work I enjoy building: practical products that solve real business and user problems.
 
-## Features
+I am currently working as a Junior .NET Developer at Maybank Ageas Holdings Berhad (Etiqa), where I build and maintain insurance modules across backend and frontend workflows. My day-to-day work includes ASP.NET Core, C#, SQL Server, REST APIs, debugging production issues, and collaborating with QA and business teams to deliver reliable releases.
 
-- 🎨 Modern and clean design
-- 🌓 Dark/Light theme toggle
-- 📱 Fully responsive layout
-- ⚡ Smooth animations and transitions
-- 🎯 Interactive project showcase
-- 📝 Detailed experience and education sections
-- 📞 Contact information and social links
+My background combines software engineering and product thinking. I completed a Diploma in ICT (Software Engineering) and a Bachelor of Information Technology (Mobile Technology) at Asia Pacific University (APU), and I gained hands-on experience through internships and industry projects involving web applications, mobile development, and data analysis.
 
-## Technologies Used
-
-- React
-- Styled Components
-- Framer Motion
-- React Icons
-- React Router
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/portfolio.git
-cd portfolio
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
-
-## Project Structure
-
-```
-src/
-├── components/         # React components
-├── context/           # Context providers
-├── assets/            # Static assets
-└── App.jsx           # Main application component
-```
-
-## Contact
-
-- Email: kohmengsengapu@gmail.com
-- LinkedIn: [Meng Seng Koh](https://www.linkedin.com/in/meng-seng-koh-4043a628a/)
-- GitHub: [MengSeng99](https://github.com/MengSeng99)
+Across the projects in this portfolio, you will see my focus on clean implementation, continuous learning, and creating useful digital experiences with measurable impact.

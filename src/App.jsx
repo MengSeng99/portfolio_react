@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import Navigation from './components/Navigation/Navigation';
 import Hero from './components/Hero/Hero';
 import Education from './components/Education/Education';
